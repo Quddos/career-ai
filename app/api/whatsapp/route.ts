@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sendMessage } from "@/services/whatsapp";
 
 // GET: Used by Meta to verify your webhook
 export async function GET(req: NextRequest) {
@@ -27,23 +28,27 @@ export async function GET(req: NextRequest) {
 
 // POST: Receives WhatsApp messages here
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
+  const body = await req.json();
 
-    console.log("===== WEBHOOK RECEIVED =====");
-    console.log(JSON.stringify(body, null, 2));
-    console.log("============================");
+  console.log(JSON.stringify(body, null, 2));
 
-    return NextResponse.json(
-      { success: true },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error(error);
+  const message =
+    body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
 
-    return NextResponse.json(
-      { success: false },
-      { status: 500 }
-    );
+  if (!message) {
+    return NextResponse.json({
+      received: true,
+    });
   }
+
+  const phone = message.from;
+
+  await sendMessage(
+    phone,
+    "👋 Welcome to Career AI!\n\nI'm your AI Career Assistant.\n\n1️⃣ Create CV\n2️⃣ Portfolio Website\n3️⃣ Improve Resume"
+  );
+
+  return NextResponse.json({
+    received: true,
+  });
 }
