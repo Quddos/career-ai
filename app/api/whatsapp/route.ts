@@ -27,13 +27,23 @@ export async function GET(req: NextRequest) {
 
 // POST: Receives WhatsApp messages here
 export async function POST(req: NextRequest) {
-  const body = await req.json();
+  try {
+    const body = await req.json();
 
-  console.log(
-    JSON.stringify(body, null, 2)
-  );
+    console.log("===== WEBHOOK RECEIVED =====");
+    console.log(JSON.stringify(body, null, 2));
+    console.log("============================");
 
-  return NextResponse.json({
-    status: "received",
-  });
+    return NextResponse.json(
+      { success: true },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(error);
+
+    return NextResponse.json(
+      { success: false },
+      { status: 500 }
+    );
+  }
 }
