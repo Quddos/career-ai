@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   );
 }
 
-// POST: Receives WhatsApp messages
+// POST: Receives WhatsApp messages here
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
