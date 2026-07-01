@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
 
     const result = await sendMessage(
       phone,
-      "👋 Welcome to Career AI!\n\nI'm your AI Career Assistant.\n\n1️⃣ Create CV\n2️⃣ Portfolio Website\n3️⃣ Improve Resume"
+      "👋 Welcome To Career AI!\n\nI'm your AI Career Assistant.\n\n1️⃣ Create CV\n2️⃣ Portfolio Website\n3️⃣ Improve Resume"
     );
 
     console.log("Message sent result:");
